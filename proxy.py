@@ -12,7 +12,7 @@ def index():
         return ("Cannot fetch remote URL %s" % request.query_string, 500, {})
 
     resp = make_response(response.text)
-    resp.headers['Access-Control-Allow-Origin'] = 'http://gpgverify.github.io, https://gpgverify.github.io'
+    resp.headers['Access-Control-Allow-Origin'] = '*'
 
     forward_headers = ['Content-Type', 'Content-Length']
     for h in forward_headers:
