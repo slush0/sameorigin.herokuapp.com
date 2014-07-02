@@ -1,1 +1,1 @@
-web: gunicorn proxy:index
+web: gunicorn proxy.wsgi:app
