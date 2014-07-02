@@ -14,7 +14,7 @@ def index():
     if '-----BEGIN PGP SIGNED MESSAGE-----' not in response.text:
         return ("Provided URL does not contain any PGP signed message", 500, {})
 
-    if len(response.text) > 10000:
+    if len(response.text) > 100000:
         return ("Provided URL is over 100kB in size", 500, {})
 
     resp = make_response(response.text)
