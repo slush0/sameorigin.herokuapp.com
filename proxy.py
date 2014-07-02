@@ -11,6 +11,12 @@ def index():
     except:
         return ("Cannot fetch remote URL %s" % request.query_string, 500, {})
 
+    if '-----BEGIN PGP SIGNED MESSAGE-----' not in response.text:
+        return ("Provided URL does not contain any PGP signed message", 500, {})
+
+    if len(response.text) > 10000:
+        return ("Provided URL is over 100kB in size", 500, {})
+
     resp = make_response(response.text)
     resp.headers['Access-Control-Allow-Origin'] = '*'
 
