@@ -17,7 +17,7 @@ def index():
     if len(response.text) > 100000:
         return ("Provided URL is over 100kB in size", 401, {})
 
-    if request.query_string.startswith(WHITELIST):
+    if request.query_string.startswith(WHITELIST_URL):
         return process_response(response)
 
     if any(x in response.text for x in WHITELIST_CONTENT):
