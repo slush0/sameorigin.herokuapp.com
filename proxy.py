@@ -12,10 +12,10 @@ def index():
     try:
         response = requests.get(request.query_string)
     except:
-        return ("Cannot fetch remote URL %s" % request.query_string, 500, {})
+        return ("Cannot fetch remote URL %s" % request.query_string, 401, {})
 
     if len(response.text) > 100000:
-        return ("Provided URL is over 100kB in size", 500, {})
+        return ("Provided URL is over 100kB in size", 401, {})
 
     if request.query_string.startswith(WHITELIST):
         return process_response(response)
@@ -23,7 +23,7 @@ def index():
     if any(x in response.text for x in WHITELIST_CONTENT):
         return process_response(response)
 
-    return ("Provided URL does not pass whitelist conditions", 500, {})
+    return ("Provided URL does not pass whitelist conditions", 401, {})
 
 def process_response(response):
     resp = make_response(response.text)
