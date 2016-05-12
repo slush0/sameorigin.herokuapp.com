@@ -10,7 +10,8 @@ WHITELIST_CONTENT = ('-----BEGIN PGP SIGNED MESSAGE-----',)
 @app.route('/')
 def index():
     try:
-        response = requests.get(request.query_string)
+        headers = {"x-forwarded-for": request.remote_addr}
+        response = requests.get(request.query_string, headers=headers)
     except:
         return ("Cannot fetch remote URL %s" % request.query_string, 401, {})
 
