@@ -10,7 +10,15 @@ WHITELIST_CONTENT = ('-----BEGIN PGP SIGNED MESSAGE-----',)
 @app.route('/')
 def index():
     try:
-        headers = {"x-forwarded-for": request.remote_addr}
+        # Read address from heroku-provided headers
+        client_addr = request.headers.getlist("X-Forwarded-For")[0]
+    except:
+        # Read address from connection
+        client_addr = request.remote_addr
+
+    headers = {"x-forwarded-for": client_addr}
+
+    try:
         response = requests.get(request.query_string, headers=headers)
     except:
         return ("Cannot fetch remote URL %s" % request.query_string, 401, {})
